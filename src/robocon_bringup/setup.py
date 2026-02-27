@@ -18,8 +18,8 @@ setup(
     zip_safe=True,
     maintainer='rui3510',
     maintainer_email='rui0314rui@icloud.com',
-    description='TODO: Package description',
-    license='TODO: License declaration',
+    description='Bringup package scaffold for R2 control stack',
+    license='Apache-2.0',
     extras_require={
         'test': [
             'pytest',
