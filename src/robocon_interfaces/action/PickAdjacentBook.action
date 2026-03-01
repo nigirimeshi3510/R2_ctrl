@@ -1,0 +1,8 @@
+int8 target_cell_id
+---
+bool success
+int32 error_code
+string debug
+---
+string state
+float32 progress
