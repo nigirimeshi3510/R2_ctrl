@@ -1,0 +1,9 @@
+int8 from_cell_id
+int8 to_cell_id
+---
+bool success
+int32 error_code
+string debug
+---
+string state
+float32 progress
