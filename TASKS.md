@@ -1,177 +1,177 @@
-# TASKS.md — Implementation Plan (Codex-friendly)
+# TASKS.md — 実装計画（Codex向け）
 
-## Conventions
-- 1 task = 1 PR-sized change
-- Always run:
+## 共通ルール
+- 1 task = 1 PRサイズの変更
+- 毎回必ず実行:
   - `colcon build`
   - `colcon test`
   - `colcon test-result --verbose`
-- Keep commits small and reviewable
+- コミットは小さく、レビューしやすく保つ
 
 ---
 
-## Task 0: Repo Bootstrap
-### Goal
-Create ROS 2 workspace structure with minimal packages and build passing.
+## Task 0: リポジトリ初期構成
+### 目的
+最小パッケージ構成のROS 2ワークスペースを作成し、ビルド成功状態にする。
 
-### Deliverables
-- `src/robocon_interfaces/` (empty msg/action scaffolding)
-- `src/robocon_bringup/` (basic launch)
-- `.gitignore` for ROS2 build artifacts
-- `AGENT.md`, `SPEC_R2_CONTROL.md`, `TASKS.md` included at repo root
+### 成果物
+- `src/robocon_interfaces/`（msg/actionの空スキャフォールド）
+- `src/robocon_bringup/`（基本launch）
+- ROS2ビルド成果物向け`.gitignore`
+- リポジトリルートに`AGENT.md`、`SPEC_R2_CONTROL.md`、`TASKS.md`
 
-### Acceptance Criteria
-- `colcon build` passes
-- `ros2 pkg list | grep robocon_` shows packages
+### 受け入れ条件
+- `colcon build` が通る
+- `ros2 pkg list | grep robocon_` でパッケージが確認できる
 
 ---
 
-## Task 1: robocon_interfaces (msgs/actions)
-### Goal
-Define all required messages/actions used by the stack.
+## Task 1: robocon_interfaces（msg/action）
+### 目的
+スタックで必要な全メッセージ/アクションを定義する。
 
-### Deliverables
+### 成果物
 - `msg/BookMap.msg`
 - `msg/CellState.msg`
-- `msg/PlumPlan.msg` (or use Action result)
+- `msg/PlumPlan.msg`（またはAction resultで代替）
 - `action/MoveCell.action`
 - `action/ClimbStep.action`
 - `action/PickAdjacentBook.action`
 - `action/DockToAruco.action`
 
-### Acceptance Criteria
-- Build passes
-- Message/action generation works
-- Minimal sample publisher/subscriber compiles
+### 受け入れ条件
+- ビルドが通る
+- メッセージ/アクション生成が機能する
+- 最小Publisher/Subscriberサンプルがコンパイルできる
 
 ---
 
-## Task 2: Perception BookMap (robocon_perception)
-### Goal
-Convert YOLO detections into a 12-cell BookMap.
+## Task 2: Perception BookMap（robocon_perception）
+### 目的
+YOLO検出結果を12セルBookMapへ変換する。
 
-### Deliverables
+### 成果物
 - Node: `bookmap_node`
-  - Sub: `/yolo_detections` (define internal msg or use vision_msgs)
-  - Pub: `/book_map` (robocon_interfaces/BookMap)
-- Calibration config:
-  - homography matrix OR pixel->cell LUT in YAML
+  - Sub: `/yolo_detections`（独自msg定義または`vision_msgs`利用）
+  - Pub: `/book_map`（`robocon_interfaces/BookMap`）
+- キャリブレーション設定:
+  - ホモグラフィ行列、またはYAMLのpixel->cell LUT
 
-### Acceptance Criteria
-- Unit test: fixed detections -> expected cell_id mapping
-- conf<threshold -> UNKNOWN
-- `ros2 run ...` publishes /book_map correctly
+### 受け入れ条件
+- ユニットテスト: 固定検出入力 -> 期待`cell_id`へマッピング
+- `conf<threshold` は `UNKNOWN`
+- `ros2 run ...` で `/book_map` が正しくpublishされる
 
 ---
 
-## Task 3: Scan Fusion (robocon_localization)
-### Goal
-Fuse left/right LaserScan into /scan_fused for AMCL.
+## Task 3: Scan Fusion（robocon_localization）
+### 目的
+左右LaserScanを融合し、AMCL向け`/scan_fused`を生成する。
 
-### Deliverables
+### 成果物
 - Node: `scan_fuser`
   - Sub: `/scan_left`, `/scan_right`
   - Pub: `/scan_fused`
-- Parameters:
-  - frame mapping policy
-  - angular binning strategy
+- パラメータ:
+  - フレームマッピング方針
+  - 角度ビニング戦略
 
-### Acceptance Criteria
-- Node runs and outputs valid LaserScan
-- Basic sanity: /scan_fused angle range reasonable
+### 受け入れ条件
+- ノードが起動し、有効なLaserScanを出力できる
+- 基本健全性: `/scan_fused` の角度範囲が妥当
 
 ---
 
-## Task 4: Localization Mode Switching (robocon_localization)
-### Goal
-Implement FLAT/CLIMB switching for odometry and scan gating.
+## Task 4: Localization Mode Switching（robocon_localization）
+### 目的
+オドメトリ切替とscanゲーティングによるFLAT/CLIMB切替を実装する。
 
-### Deliverables
-- `ekf_flat.yaml`, `ekf_climb.yaml` for robot_localization
+### 成果物
+- `robot_localization` 向け `ekf_flat.yaml`, `ekf_climb.yaml`
 - Node: `odom_mux`
   - Sub: `ekf_flat/odometry`, `ekf_climb/odometry`, `/loc_mode`
   - Pub: `/odometry/filtered`
 - Node: `scan_gate`
   - Sub: `/scan_fused`, `/loc_mode`
-  - Pub: `/scan_for_amcl` (or passthrough to AMCL input)
+  - Pub: `/scan_for_amcl`（またはAMCL入力へ透過）
 
-### Acceptance Criteria
-- Switching /loc_mode toggles odom source
-- CLIMB blocks scan input to AMCL
+### 受け入れ条件
+- `/loc_mode` 切替でodomソースが切り替わる
+- CLIMB時にAMCLへのscan入力が遮断される
 
 ---
 
-## Task 5: Plum Planner (robocon_plum_planner)
-### Goal
-Generate safe discrete plan from BookMap.
+## Task 5: Plum Planner（robocon_plum_planner）
+### 目的
+BookMapから安全な離散計画を生成する。
 
-### Deliverables
+### 成果物
 - Node: `plum_planner_node`
   - Sub: `/book_map`, `/cell_state`
   - Pub: `/plum_plan`
-- Planner core library:
-  - DP / uniform-cost search over (pos, cleared_mask, carry)
-  - Constraints implemented exactly per spec
+- プランナコアライブラリ:
+  - `(pos, cleared_mask, carry)` 上のDP/均一コスト探索
+  - 仕様通りの制約を厳密実装
 
-### Acceptance Criteria (Unit Tests REQUIRED)
-- Never MOVE onto forbidden (uncleared book) cells
-- PICK only adjacent
-- EXIT only at 10/11/12 with carry>=1
-- Special first-pick rule when R2 exists in 1–3
-- UNKNOWN treated as forbidden
-- Provides fallback 1-book plan if 2-book plan impossible
-
----
-
-## Task 6: Motion Primitives (robocon_motion_primitives)
-### Goal
-Create Action servers for MoveCell/Climb/Pick.
-
-### Deliverables
-- Action servers:
-  - /move_cell
-  - /climb_step
-  - /pick_adjacent_book
-- Internal state machine for climb procedure (README.md)
-- Publish /loc_mode transitions:
-  - CLIMB during climb, FLAT after completion
-
-### Acceptance Criteria
-- Mock mode: actions return success and log transitions
-- Real mode hooks prepared (topics/services to STM32)
-- Failures return meaningful error codes
+### 受け入れ条件（ユニットテスト必須）
+- 禁止セル（未クリア本セル）へMOVEしない
+- PICKは隣接のみ
+- EXITは10/11/12かつ`carry>=1`のみ
+- 1〜3にR2がある場合の初手回収特別ルールを満たす
+- `UNKNOWN`を禁止扱いにする
+- 2冊が不可能な場合に1冊フォールバック計画を返す
 
 ---
 
-## Task 7: Mission BT (robocon_bt_mission)
-### Goal
-Implement PlumPhase BT pipeline end-to-end.
+## Task 6: Motion Primitives（robocon_motion_primitives）
+### 目的
+MoveCell/Climb/PickのActionサーバを実装する。
 
-### Deliverables
-- BT nodes:
-  - ObserveAllBooksFromCorridor
-  - ComputePlumPlan
-  - ExecutePlumPlan (dispatch actions sequentially)
-  - ExitPlumForest
-- Blackboard variables:
-  - book_map, cell_state, plan, carry, loc_mode
+### 成果物
+- Actionサーバ:
+  - `/move_cell`
+  - `/climb_step`
+  - `/pick_adjacent_book`
+- 段差越え手順（`README.md`）向け内部状態機械
+- `/loc_mode` 遷移publish:
+  - 段差越え中はCLIMB、完了後はFLAT
 
-### Acceptance Criteria
-- With mocked actions, BT completes:
+### 受け入れ条件
+- モックモード: actionが成功を返し、遷移ログが出る
+- 実機モードのフック準備（STM32向けtopic/service）
+- 失敗時に意味のあるエラーコードを返す
+
+---
+
+## Task 7: Mission BT（robocon_bt_mission）
+### 目的
+PlumフェーズBTをエンドツーエンドで実装する。
+
+### 成果物
+- BTノード:
+  - `ObserveAllBooksFromCorridor`
+  - `ComputePlumPlan`
+  - `ExecutePlumPlan`（actionを逐次dispatch）
+  - `ExitPlumForest`
+- Blackboard変数:
+  - `book_map`, `cell_state`, `plan`, `carry`, `loc_mode`
+
+### 受け入れ条件
+- モックactionでBTが完了する:
   - Observe -> Plan -> Execute -> Exit
-- On any action failure:
-  - triggers replan and retry (bounded retries)
+- 任意action失敗時:
+  - 再計画・再試行（回数上限あり）を発火
 
 ---
 
-## Task 8 (Optional but Recommended): CI
-### Goal
-Ensure main branch always builds/tests.
+## Task 8（任意だが推奨）: CI
+### 目的
+mainブランチで常時build/testが通る状態を保証する。
 
-### Deliverables
-- GitHub Actions workflow:
-  - build + test on Ubuntu 22.04, ROS 2 Humble
-- Caching for faster iteration
+### 成果物
+- GitHub Actionsワークフロー:
+  - Ubuntu 22.04 + ROS 2 Humbleでbuild + test
+- 反復高速化のためのキャッシュ設定
 
-### Acceptance Criteria
-- PR must pass CI before merge
+### 受け入れ条件
+- マージ前にPRでCI通過が必須
