@@ -11,6 +11,7 @@
 - Task 2.5（`bookmap_viz_node`）実装完了（RViz可視化、手前列=10/11/12）
 - Task 2.6（Foxglove向けlaunch）実装完了（bookmap + viz + bridge一括起動）
 - Task 2.7（RViz向けlaunch+設定）実装完了（project内rviz設定を使用）
+- 画像処理担当向けREADMEを追加（`src/robocon_perception/README.md`）
 - `SPEC_R2_CONTROL.md` / `AGENT.md` / `TASKS.md` を日本語化
 - PR #2 作成済み・更新中  
   - https://github.com/nigirimeshi3510/R2_ctrl/pull/2
@@ -21,6 +22,7 @@
 - [x] Task 2.5: `bookmap_viz_node`（`/book_map_markers` 可視化、色分け、ラベル表示）
 - [x] Task 2.6: `perception_foxglove.launch.py`（起動コマンド集約）
 - [x] Task 2.7: `perception_rviz.launch.py` + `perception_bookmap.rviz`（RViz起動集約）
+- [x] README追加: 画像処理担当向け連携仕様ドキュメント（`src/robocon_perception/README.md`）
 
 ## 進行中タスク
 - [ ] Task 3: `robocon_localization`（scan_fuser）
