@@ -8,6 +8,12 @@
   - `colcon test-result --verbose`
 - コミットは小さく、レビューしやすく保つ
 
+## 現在の優先順（2026-03-03時点）
+1. Task 4: Localization Mode Switching
+2. Task 6: Motion Primitives（モック優先）
+3. Task 7: Mission BT（モック連携）
+4. Task 8: CI
+
 ---
 
 ## Task 0: リポジトリ初期構成
@@ -104,6 +110,10 @@ YOLO検出結果を12セルBookMapへ変換する。
 ## Task 5: Plum Planner（robocon_plum_planner）
 ### 目的
 BookMapから安全な離散計画を生成する。
+
+### ステータス
+- 実装完了（PR #8）
+- 次タスクは Task 4 へ移行
 
 ### 成果物
 - Node: `plum_planner_node`
