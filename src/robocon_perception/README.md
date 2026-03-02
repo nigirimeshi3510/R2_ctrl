@@ -51,17 +51,6 @@ source install/setup.bash
 ros2 launch robocon_bringup perception_rviz.launch.py
 ```
 
-### Foxgloveで確認
-```bash
-cd /home/rui3510/R2_ctrl
-source /opt/ros/humble/setup.bash
-source install/setup.bash
-ros2 launch robocon_bringup perception_foxglove.launch.py
-```
-
-補足:
-- `foxglove_bridge` 未導入なら `sudo apt install ros-humble-foxglove-bridge`
-
 ## 5. 画像処理担当チェックリスト
 
 1. `/yolo_detections` が `vision_msgs/msg/Detection2DArray` でpublishされる
