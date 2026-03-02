@@ -1,24 +1,27 @@
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.conditions import IfCondition
+from launch.substitutions import PathJoinSubstitution
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
+from launch_ros.substitutions import FindPackageShare
 
 
 def generate_launch_description() -> LaunchDescription:
-    """Return the minimal bringup launch description for Task 0."""
-    use_bookmap = LaunchConfiguration("use_bookmap")
     return LaunchDescription([
         DeclareLaunchArgument(
-            "use_bookmap",
-            default_value="false",
-            description="If true, start robocon_perception bookmap_node.",
+            "lut_yaml_path",
+            default_value=PathJoinSubstitution(
+                [FindPackageShare("robocon_perception"), "config", "bookmap_lut.yaml"]
+            ),
+            description="Path to pixel->cell LUT YAML.",
         ),
         Node(
             package="robocon_perception",
             executable="bookmap_node",
             name="bookmap_node",
             output="screen",
-            condition=IfCondition(use_bookmap),
+            parameters=[{
+                "lut_yaml_path": LaunchConfiguration("lut_yaml_path"),
+            }],
         ),
     ])
