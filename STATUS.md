@@ -1,9 +1,9 @@
 # STATUS.md — 作業進捗ログ
 
-最終更新: 2026-03-02
+最終更新: 2026-03-03
 
 ## 現在ブランチ
-- `feat/task1-interfaces`
+- `main`
 
 ## 進捗サマリ
 - Task 1（`robocon_interfaces`）実装完了
@@ -27,11 +27,12 @@
 
 ## 進行中タスク
 - [ ] Task 4: `robocon_localization`（Localization Mode Switching）
+- [ ] Task 5: `robocon_plum_planner`（実装着手、赤青番号系対応）
 
 ## 次にやること（Next Action）
-1. Task 4: `odom_mux` 実装（`ekf_flat/odometry` と `ekf_climb/odometry` の切替）
-2. Task 4: `scan_gate` 実装（CLIMB中のscan遮断）
-3. bringup launchへTask4ノード起動統合
+1. Task 5: プランナコアとノードのテスト結果を確認し、必要なら調整
+2. Task 5: bringup統合確認とドキュメント整合確認
+3. Task 4: `odom_mux` / `scan_gate` の実装へ移行
 
 ## 検証コマンド
 - `colcon build --symlink-install`

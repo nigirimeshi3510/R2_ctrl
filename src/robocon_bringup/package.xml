@@ -15,6 +15,7 @@
   <exec_depend>urg_node2</exec_depend>
   <exec_depend>robocon_localization</exec_depend>
   <exec_depend>robocon_perception</exec_depend>
+  <exec_depend>robocon_plum_planner</exec_depend>
 
   <export>
     <build_type>ament_python</build_type>
