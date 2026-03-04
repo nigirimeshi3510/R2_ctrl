@@ -1,6 +1,6 @@
 # STATUS.md — 作業進捗ログ
 
-最終更新: 2026-03-03
+最終更新: 2026-03-04
 
 ## 現在ブランチ
 - `feat/task5-plum-planner`
@@ -27,12 +27,15 @@
 - [x] README追加: 画像処理担当向け連携仕様ドキュメント（`src/robocon_perception/README.md`）
 
 ## 進行中タスク
+- [ ] Task 3.5: rosbag取得（`scan + imu + tf + cmd_vel`）
+- [ ] Task 3.6: Nav2最小テスト（`slam + nav2` で経路追従）
 - [ ] Task 4: `robocon_localization`（Localization Mode Switching）
 
 ## 次にやること（Next Action）
-1. Task 4: `odom_mux` 実装（`ekf_flat/odometry` と `ekf_climb/odometry` の切替）
-2. Task 4: `scan_gate` 実装（CLIMB時のscan遮断）
-3. Task 4: bringup launchへ統合、テスト整備
+1. Task 3.5: `scan + imu + tf + cmd_vel` のrosbag取得（60秒以上）
+2. Task 3.6: `slam + nav2` の最小構成で経路追従テスト
+3. Task 4: `odom_mux` 実装（`ekf_flat/odometry` と `ekf_climb/odometry` の切替）
+4. Task 4: `scan_gate` 実装（CLIMB時のscan遮断）
 
 ## 検証コマンド
 - `colcon build --symlink-install`
@@ -54,3 +57,22 @@
   - https://github.com/nigirimeshi3510/R2_ctrl/pull/8
 - #2 既存PR（履歴）
   - https://github.com/nigirimeshi3510/R2_ctrl/pull/2
+
+## 追加実装（機体モデル / 2026-03-05）
+- `src/r2_sldasm_description` を `R2_ctrl` ワークスペースへ移管し、`colcon` 認識・単体ビルド確認済み。
+- URDFの機体寸法を更新（先端基準x/y指定、main/sub wheel配置、lift/subwheel/lidar位置調整）。
+- main wheel / subwheel / lidar の簡易形状を寸法指定で反映。
+  - main wheel: 直径100mm, 幅50mm
+  - subwheel: 直径60mm, 幅30mm
+  - lidar: 直径50mm, 高さ60mm
+- `base_link` 形状を 600x400mm（厚み10mm）の中空フレームとして定義。
+- TF構成を拡張:
+  - `world -> base_footprint -> base_link` を追加
+  - `imu_link` を追加（現状は `base_link` 中心固定）
+  - `laser_left/right` エイリアスを追加（`lidar1/2_link` 互換維持）
+- Gazebo用worldを追加（`worlds/lift_box_world.sdf`）し、1200x1200x200mm の箱を配置。
+
+## 検証メモ（機体モデル）
+- `cd /home/rui3510/R2_ctrl && colcon list` で `r2_sldasm_description` を認識。
+- `cd /home/rui3510/R2_ctrl && colcon build --packages-select r2_sldasm_description` 通過。
+- ルート直下の `colcon` 実行時に `CMakeLists.txt` 識別エラー表示あり（既知・パッケージ自体のビルドは成功）。

@@ -8,11 +8,13 @@
   - `colcon test-result --verbose`
 - コミットは小さく、レビューしやすく保つ
 
-## 現在の優先順（2026-03-03時点）
-1. Task 4: Localization Mode Switching
-2. Task 6: Motion Primitives（モック優先）
-3. Task 7: Mission BT（モック連携）
-4. Task 8: CI
+## 現在の優先順（2026-03-04時点）
+1. Task 3.5: rosbag取得（scan + imu + tf + cmd_vel）
+2. Task 3.6: Nav2最小テスト（slam + nav2で経路追従）
+3. Task 4: Localization Mode Switching
+4. Task 6: Motion Primitives（モック優先）
+5. Task 7: Mission BT（モック連携）
+6. Task 8: CI
 
 ---
 
@@ -85,6 +87,45 @@ YOLO検出結果を12セルBookMapへ変換する。
 ### 受け入れ条件
 - ノードが起動し、有効なLaserScanを出力できる
 - 基本健全性: `/scan_fused` の角度範囲が妥当
+
+---
+
+## Task 3.5: rosbag取得（実機ログ）
+### 目的
+最小自己位置推定・ナビ検証に必要な生データを収集する。
+
+### 成果物
+- rosbag（`mcap`推奨）:
+  - `/scan_left`
+  - `/scan_right`（または `/scan_fused` を利用する場合はどちらか明記）
+  - `/imu`
+  - `/tf`
+  - `/tf_static`
+  - `/cmd_vel`
+- 記録手順メモ（実施環境、記録時間、開始/停止手順）
+
+### 受け入れ条件
+- 目安60秒以上の連続記録がある
+- `ros2 bag info` で上記トピックが確認できる
+- `tf` と `scan/imu/cmd_vel` のタイムスタンプが記録されている
+
+---
+
+## Task 3.6: Nav2最小テスト（slam + nav2）
+### 目的
+SLAM地図生成とNav2による経路追従の最小成立を確認する。
+
+### 成果物
+- 最小launchまたは手順書:
+  - SLAM起動
+  - Nav2起動
+  - RVizから2D Goal送信
+- テスト記録（成功/失敗、ログ、必要なパラメータ）
+
+### 受け入れ条件
+- `scan + imu + tf + cmd_vel` 入力でSLAMが地図を更新する
+- Nav2が経路を生成し、`cmd_vel` が出力される
+- 少なくとも1回、目標地点まで追従完了を確認する
 
 ---
 

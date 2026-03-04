@@ -1,0 +1,945 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="r2_sldasm">
+  <link
+    name="world" />
+  <link
+    name="base_footprint" />
+  <joint
+    name="world_to_base_footprint"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="world" />
+    <child
+      link="base_footprint" />
+  </joint>
+  <joint
+    name="base_footprint_to_base"
+    type="fixed">
+    <origin
+      xyz="0 0 0.05"
+      rpy="0 0 0" />
+    <parent
+      link="base_footprint" />
+    <child
+      link="base_link" />
+  </joint>
+  <link
+    name="imu_link" />
+  <joint
+    name="base_to_imu"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="base_link" />
+    <child
+      link="imu_link" />
+  </joint>
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="1.13922419176372 1.2668045666925 1.27201617566475"
+        rpy="0 0 0" />
+      <mass
+        value="0.366040011435051" />
+      <inertia
+        ixx="0.00204747066128391"
+        ixy="4.46992140780942E-16"
+        ixz="8.1080700899077E-08"
+        iyy="0.00296607405293247"
+        iyz="2.85060987326875E-19"
+        izz="0.00116154567791364" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0.195 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box
+          size="0.6 0.01 0.01" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <visual>
+      <origin
+        xyz="0 -0.195 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box
+          size="0.6 0.01 0.01" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <visual>
+      <origin
+        xyz="0.295 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box
+          size="0.01 0.4 0.01" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <visual>
+      <origin
+        xyz="-0.295 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box
+          size="0.01 0.4 0.01" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0.195 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box
+          size="0.6 0.01 0.01" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin
+        xyz="0 -0.195 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box
+          size="0.6 0.01 0.01" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin
+        xyz="0.295 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box
+          size="0.01 0.4 0.01" />
+      </geometry>
+    </collision>
+    <collision>
+      <origin
+        xyz="-0.295 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box
+          size="0.01 0.4 0.01" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="fl_wheel_link">
+    <inertial>
+      <origin
+        xyz="-1.1102E-16 4.4409E-16 0.03"
+        rpy="0 0 0" />
+      <mass
+        value="0.45244" />
+      <inertia
+        ixx="0.00042894"
+        ixy="-1.3553E-20"
+        ixz="3.7571E-20"
+        iyy="0.00042894"
+        iyz="1.6021E-19"
+        izz="0.00058643" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.05"
+          length="0.05" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79608 0.82353 0.93725 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.05"
+          length="0.05" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fl_wheel_joint"
+    type="revolute">
+    <origin
+      xyz="0.228 0.135 0"
+      rpy="-1.5708 -0.66414 -3.141589" />
+    <parent
+      link="base_link" />
+    <child
+      link="fl_wheel_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.1416"
+      upper="3.1416"
+      effort="10"
+      velocity="6.283185" />
+  </joint>
+  <link
+    name="fr_wheel_link">
+    <inertial>
+      <origin
+        xyz="0 0 0.03"
+        rpy="0 0 0" />
+      <mass
+        value="0.45244" />
+      <inertia
+        ixx="0.00042894"
+        ixy="0"
+        ixz="-6.1211E-20"
+        iyy="0.00042894"
+        iyz="2.7444E-19"
+        izz="0.00058643" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.05"
+          length="0.05" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79608 0.82353 0.93725 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.05"
+          length="0.05" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fr_wheel_joint"
+    type="revolute">
+    <origin
+      xyz="0.228 -0.135 0"
+      rpy="1.5708 -0.21334 -3.141589" />
+    <parent
+      link="base_link" />
+    <child
+      link="fr_wheel_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.1416"
+      upper="3.1416"
+      effort="10"
+      velocity="6.283185" />
+  </joint>
+  <link
+    name="rl_wheel_link">
+    <inertial>
+      <origin
+        xyz="0 0 0.03"
+        rpy="0 0 0" />
+      <mass
+        value="0.45244" />
+      <inertia
+        ixx="0.00042894"
+        ixy="-1.3553E-20"
+        ixz="1.2533E-19"
+        iyy="0.00042894"
+        iyz="6.9074E-20"
+        izz="0.00058643" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.05"
+          length="0.05" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79608 0.82353 0.93725 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.05"
+          length="0.05" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rl_wheel_joint"
+    type="revolute">
+    <origin
+      xyz="-0.102 0.135 0"
+      rpy="-1.5708 0.15867 -3.141589" />
+    <parent
+      link="base_link" />
+    <child
+      link="rl_wheel_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.1416"
+      upper="3.1416"
+      effort="10"
+      velocity="6.283185" />
+  </joint>
+  <link
+    name="rr_wheel_link">
+    <inertial>
+      <origin
+        xyz="0 0 0.03"
+        rpy="0 0 0" />
+      <mass
+        value="0.45244" />
+      <inertia
+        ixx="0.00042894"
+        ixy="-1.3553E-20"
+        ixz="5.9443E-20"
+        iyy="0.00042894"
+        iyz="-2.1109E-19"
+        izz="0.00058643" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.05"
+          length="0.05" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79608 0.82353 0.93725 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.05"
+          length="0.05" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rr_wheel_joint"
+    type="revolute">
+    <origin
+      xyz="-0.102 -0.135 0"
+      rpy="-1.5708 0.39742 -0.000004" />
+    <parent
+      link="base_link" />
+    <child
+      link="rr_wheel_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.1416"
+      upper="3.1416"
+      effort="10"
+      velocity="6.283185" />
+  </joint>
+  <link
+    name="lidar1_link">
+    <inertial>
+      <origin
+        xyz="3.4964E-06 0.038527 -0.00045594"
+        rpy="0 0 0" />
+      <mass
+        value="0.23922" />
+      <inertia
+        ixx="0.0002191"
+        ixy="2.549E-08"
+        ixz="8.8072E-08"
+        iyy="0.00011628"
+        iyz="3.9064E-07"
+        izz="0.00021622" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.025"
+          length="0.06" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.025"
+          length="0.06" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lidar1_joint"
+    type="fixed">
+    <origin
+      xyz="0 0.24 0.05"
+      rpy="0 0 1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="lidar1_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="lidar2_link">
+    <inertial>
+      <origin
+        xyz="3.4963E-06 0.038527 -0.00045594"
+        rpy="0 0 0" />
+      <mass
+        value="0.23922" />
+      <inertia
+        ixx="0.0002191"
+        ixy="2.549E-08"
+        ixz="8.8073E-08"
+        iyy="0.00011628"
+        iyz="3.9064E-07"
+        izz="0.00021622" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.025"
+          length="0.06" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.025"
+          length="0.06" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="lidar2_joint"
+    type="fixed">
+    <origin
+      xyz="0 -0.24 0.05"
+      rpy="0 0 -1.5708" />
+    <parent
+      link="base_link" />
+    <child
+      link="lidar2_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="laser_left" />
+  <joint
+    name="lidar1_to_laser_left"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="lidar1_link" />
+    <child
+      link="laser_left" />
+  </joint>
+  <link
+    name="laser_right" />
+  <joint
+    name="lidar2_to_laser_right"
+    type="fixed">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="lidar2_link" />
+    <child
+      link="laser_right" />
+  </joint>
+  <link
+    name="fl_lift_link">
+    <inertial>
+      <origin
+        xyz="-0.0070463 -0.013228 0.28759"
+        rpy="0 0 0" />
+      <mass
+        value="0.078193" />
+      <inertia
+        ixx="0.00080343"
+        ixy="-2.6429E-09"
+        ixz="-1.3443E-09"
+        iyy="0.00080152"
+        iyz="3.1428E-10"
+        izz="1.109E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box
+          size="0.05 0.05 0.05" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box
+          size="0.05 0.05 0.05" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fl_lift_joint"
+    type="prismatic">
+    <origin
+      xyz="0.055 0.15 0.1112"
+      rpy="0 0 1.570796" />
+    <parent
+      link="base_link" />
+    <child
+      link="fl_lift_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.39"
+      upper="0"
+      effort="300"
+      velocity="0.05" />
+  </joint>
+  <link
+    name="fl_subwheel_link">
+    <inertial>
+      <origin
+        xyz="-2.55795384873636E-13 1.35447209004269E-14 0.0159999999997129"
+        rpy="0 0 0" />
+      <mass
+        value="0.0859233130579177" />
+      <inertia
+        ixx="2.75791810474836E-05"
+        ixy="-4.2351647362715E-22"
+        ixz="2.1700004154568E-20"
+        iyy="2.75791810474836E-05"
+        iyz="3.36778628766409E-20"
+        izz="4.05398582554522E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.03"
+          length="0.03" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.03"
+          length="0.03" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fl_subwheel_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="-1.5708 0.052998 1.5708" />
+    <parent
+      link="fl_lift_link" />
+    <child
+      link="fl_subwheel_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.1416"
+      upper="3.1416"
+      effort="10"
+      velocity="6.283185" />
+  </joint>
+  <link
+    name="fr_lift_link">
+    <inertial>
+      <origin
+        xyz="-0.050148 0.05792 -0.10261"
+        rpy="0 0 0" />
+      <mass
+        value="0.078193" />
+      <inertia
+        ixx="0.00080343"
+        ixy="-2.6429E-09"
+        ixz="1.3443E-09"
+        iyy="0.00080152"
+        iyz="-3.1428E-10"
+        izz="1.109E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box
+          size="0.05 0.05 0.05" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.79216 0.81961 0.93333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box
+          size="0.05 0.05 0.05" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fr_lift_joint"
+    type="prismatic">
+    <origin
+      xyz="0.055 -0.15 0.1112"
+      rpy="0 0 1.570796" />
+    <parent
+      link="base_link" />
+    <child
+      link="fr_lift_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.39"
+      upper="0"
+      effort="300"
+      velocity="0.05" />
+  </joint>
+  <link
+    name="fr_subwheel_link">
+    <inertial>
+      <origin
+        xyz="-0.0578334482592697 -0.0708333615992325 -0.016000000000308"
+        rpy="0 0 0" />
+      <mass
+        value="0.0859233130579177" />
+      <inertia
+        ixx="2.75791810474836E-05"
+        ixy="5.29395592033938E-22"
+        ixz="2.40011786231133E-20"
+        iyy="2.75791810474837E-05"
+        iyz="1.30882505971889E-20"
+        izz="4.05398582554522E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.03"
+          length="0.03" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.03"
+          length="0.03" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="fr_subwheel_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="-1.5708 0.052998 -1.5708" />
+    <parent
+      link="fr_lift_link" />
+    <child
+      link="fr_subwheel_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.1416"
+      upper="3.1416"
+      effort="10"
+      velocity="6.283185" />
+  </joint>
+  <link
+    name="r_lift_link">
+    <inertial>
+      <origin
+        xyz="-0.050148 0.05792 -0.10261"
+        rpy="0 0 0" />
+      <mass
+        value="0.078193" />
+      <inertia
+        ixx="0.00080343"
+        ixy="-2.6429E-09"
+        ixz="1.3443E-09"
+        iyy="0.00080152"
+        iyz="-3.1428E-10"
+        izz="1.109E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box
+          size="0.05 0.05 0.05" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="1 1 1 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <box
+          size="0.05 0.05 0.05" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="r_lift_joint"
+    type="prismatic">
+    <origin
+      xyz="-0.225 0 0.0895"
+      rpy="0 0 1.570796" />
+    <parent
+      link="base_link" />
+    <child
+      link="r_lift_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-0.39"
+      upper="0"
+      effort="300"
+      velocity="0.05" />
+  </joint>
+  <link
+    name="rl_subwheel_link">
+    <inertial>
+      <origin
+        xyz="-2.16715534406831E-13 6.98330282489223E-13 0.0160000000005946"
+        rpy="0 0 0" />
+      <mass
+        value="0.0859233130579177" />
+      <inertia
+        ixx="2.75791810474836E-05"
+        ixy="-1.6940658945086E-21"
+        ixz="-5.15555461762245E-21"
+        iyy="2.75791810474836E-05"
+        iyz="-3.90132221096238E-21"
+        izz="4.05398582554522E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.03"
+          length="0.03" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.03"
+          length="0.03" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rl_subwheel_joint"
+    type="revolute">
+    <origin
+      xyz="0.115 0 -0.041"
+      rpy="-1.5708 1.27 -1.5708" />
+    <parent
+      link="r_lift_link" />
+    <child
+      link="rl_subwheel_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.1416"
+      upper="3.1416"
+      effort="10"
+      velocity="6.283185" />
+  </joint>
+  <link
+    name="rr_subwheel_link">
+    <inertial>
+      <origin
+        xyz="5.19695397827036E-13 5.14699394216223E-13 0.0160000000005942"
+        rpy="0 0 0" />
+      <mass
+        value="0.0859233130579178" />
+      <inertia
+        ixx="2.75791810474837E-05"
+        ixy="0"
+        ixz="-2.55734576140759E-21"
+        iyy="2.75791810474837E-05"
+        iyz="-2.08956140086617E-21"
+        izz="4.05398582554523E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.03"
+          length="0.03" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <cylinder
+          radius="0.03"
+          length="0.03" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="rr_subwheel_joint"
+    type="revolute">
+    <origin
+      xyz="-0.115 0 -0.041"
+      rpy="1.5708 0.77987 1.5708" />
+    <parent
+      link="r_lift_link" />
+    <child
+      link="rr_subwheel_link" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.1416"
+      upper="3.1416"
+      effort="10"
+      velocity="6.283185" />
+  </joint>
+</robot>

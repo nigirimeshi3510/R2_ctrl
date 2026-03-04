@@ -1,0 +1,12 @@
+joint_limits:
+  fl_wheel_joint: {lower: -3.14159265, upper: 3.14159265, effort: 10.0, velocity: 6.283185}
+  fr_wheel_joint: {lower: -3.14159265, upper: 3.14159265, effort: 10.0, velocity: 6.283185}
+  rl_wheel_joint: {lower: -3.14159265, upper: 3.14159265, effort: 10.0, velocity: 6.283185}
+  rr_wheel_joint: {lower: -3.14159265, upper: 3.14159265, effort: 10.0, velocity: 6.283185}
+  fl_subwheel_joint: {lower: -3.14159265, upper: 3.14159265, effort: 10.0, velocity: 6.283185}
+  fr_subwheel_joint: {lower: -3.14159265, upper: 3.14159265, effort: 10.0, velocity: 6.283185}
+  rl_subwheel_joint: {lower: -3.14159265, upper: 3.14159265, effort: 10.0, velocity: 6.283185}
+  rr_subwheel_joint: {lower: -3.14159265, upper: 3.14159265, effort: 10.0, velocity: 6.283185}
+  fl_lift_joint: {lower: -0.39, upper: 0.0, effort: 300.0, velocity: 0.05}
+  fr_lift_joint: {lower: -0.39, upper: 0.0, effort: 300.0, velocity: 0.05}
+  r_lift_joint: {lower: -0.39, upper: 0.0, effort: 300.0, velocity: 0.05}
