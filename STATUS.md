@@ -1,6 +1,6 @@
 # STATUS.md — 作業進捗ログ
 
-最終更新: 2026-03-04
+最終更新: 2026-03-18
 
 ## 現在ブランチ
 - `feat/task5-plum-planner`
@@ -16,6 +16,10 @@
 - Foxglove関連を削除（`perception_foxglove.launch.py` 廃止、READMEから記載削除）
 - 画像処理担当向けREADMEを追加（`src/robocon_perception/README.md`）
 - `SPEC_R2_CONTROL.md` / `AGENT.md` / `TASKS.md` を日本語化
+- Task 7 着手: `robocon_bt_mission` の ament_python パッケージ骨格を追加
+- Task 7 試作: 簡易 Plum BT（Observe/Plan/Execute/Exit + 1回再計画）を実装
+- Task 7 可視化: Groot 用の静的 BT XML を追加
+- `src/robocon_bt_mission/btplan.md` を現行 `robocon_*` 実装前提の計画書へ更新
 
 ## 完了タスク
 - [x] Task 1: `robocon_interfaces`（msg/action定義、生成設定、型コンパイルテスト）
@@ -30,12 +34,15 @@
 - [ ] Task 3.5: rosbag取得（`scan + imu + tf + cmd_vel`）
 - [ ] Task 3.6: Nav2最小テスト（`slam + nav2` で経路追従）
 - [ ] Task 4: `robocon_localization`（Localization Mode Switching）
+- [ ] Task 7: `robocon_bt_mission` 本番BTへの拡張（試作BTは実装済み）
 
 ## 次にやること（Next Action）
-1. Task 3.5: `scan + imu + tf + cmd_vel` のrosbag取得（60秒以上）
-2. Task 3.6: `slam + nav2` の最小構成で経路追従テスト
-3. Task 4: `odom_mux` 実装（`ekf_flat/odometry` と `ekf_climb/odometry` の切替）
-4. Task 4: `scan_gate` 実装（CLIMB時のscan遮断）
+1. Task 7: 試作BTを本番仕様へ拡張（`ClimbStep` / `DockToAruco` / 詳細リカバリ）
+2. Task 6: `robocon_motion_primitives` を独立パッケージとして実装し、試作BTのモック世界を置換
+3. Task 3.5: `scan + imu + tf + cmd_vel` のrosbag取得（60秒以上）
+4. Task 3.6: `slam + nav2` の最小構成で経路追従テスト
+5. Task 4: `odom_mux` 実装（`ekf_flat/odometry` と `ekf_climb/odometry` の切替）
+6. Task 4: `scan_gate` 実装（CLIMB時のscan遮断）
 
 ## 検証コマンド
 - `colcon build --symlink-install`
@@ -51,6 +58,14 @@
 - ワークスペース全体の `colcon test` は既存 `urg_node2` が環境権限（`~/.ros/log` 書き込み）で失敗する。
 - RVizは `ros2 launch robocon_bringup perception_rviz.launch.py` でプロジェクト設定を直接読み込める。
 - このセッションでは `sudo` パスワード入力不可のため、`ros-humble-foxglove-bridge` アンインストールは手動実施が必要。
+- `robocon_bt_mission` は追加済み。`colcon build --packages-select robocon_bt_mission --symlink-install` は通過。
+- `robocon_bt_mission` に簡易BT試作を追加:
+  - pure Python のBTコア（Observe / Plan / Execute / Exit）
+  - action失敗時の1回だけ再計画
+  - `/move_cell` と `/pick_adjacent_book` のモック世界ノード
+  - `simple_plum_bt_demo.launch.py`
+- `robocon_bt_mission/behavior_trees/simple_plum_bt.xml` を追加し、Groot で開ける静的BTを作成。
+- `colcon test --packages-select robocon_bt_mission --event-handlers console_direct+` で 6件成功を確認。
 
 ## 関連PR
 - #8 Task5: `robocon_plum_planner` 実装と競技ルール整合更新

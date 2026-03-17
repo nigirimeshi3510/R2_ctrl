@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root BTCPP_format="4" main_tree_to_execute="MainTree">
+  <BehaviorTree ID="MainTree">
+    <Sequence name="SimplePlumMission">
+      <ObserveAllBooksFromCorridor
+        book_map="{book_map}"
+        cell_state="{cell_state}"
+      />
+      <ComputePlumPlan
+        book_map="{book_map}"
+        cell_state="{cell_state}"
+        plan="{plan}"
+      />
+      <Fallback name="ExecuteWithSingleReplan">
+        <Sequence name="PrimaryAttempt">
+          <ExecutePlumPlan
+            plan="{plan}"
+            carry="{carry}"
+            loc_mode="{loc_mode}"
+          />
+          <ExitPlumForest
+            carry="{carry}"
+            cell_state="{cell_state}"
+          />
+        </Sequence>
+        <Sequence name="RetryAfterFailure">
+          <CheckRetryAvailable
+            retry_count="{retry_count}"
+            max_retries="1"
+            last_error="{last_error}"
+          />
+          <ObserveAllBooksFromCorridor
+            book_map="{book_map}"
+            cell_state="{cell_state}"
+          />
+          <ComputePlumPlan
+            book_map="{book_map}"
+            cell_state="{cell_state}"
+            plan="{plan}"
+          />
+          <ExecutePlumPlan
+            plan="{plan}"
+            carry="{carry}"
+            loc_mode="{loc_mode}"
+          />
+          <ExitPlumForest
+            carry="{carry}"
+            cell_state="{cell_state}"
+          />
+        </Sequence>
+      </Fallback>
+    </Sequence>
+  </BehaviorTree>
+
+  <TreeNodesModel>
+    <Action ID="ObserveAllBooksFromCorridor">
+      <input_port name="book_map" default="{book_map}" />
+      <input_port name="cell_state" default="{cell_state}" />
+    </Action>
+    <Action ID="ComputePlumPlan">
+      <input_port name="book_map" default="{book_map}" />
+      <input_port name="cell_state" default="{cell_state}" />
+      <output_port name="plan" default="{plan}" />
+    </Action>
+    <Action ID="ExecutePlumPlan">
+      <input_port name="plan" default="{plan}" />
+      <input_port name="carry" default="{carry}" />
+      <input_port name="loc_mode" default="{loc_mode}" />
+    </Action>
+    <Condition ID="ExitPlumForest">
+      <input_port name="carry" default="{carry}" />
+      <input_port name="cell_state" default="{cell_state}" />
+    </Condition>
+    <Condition ID="CheckRetryAvailable">
+      <input_port name="retry_count" default="{retry_count}" />
+      <input_port name="max_retries" default="1" />
+      <input_port name="last_error" default="{last_error}" />
+    </Condition>
+  </TreeNodesModel>
+</root>
